@@ -19,7 +19,7 @@ namespace DataImport
 
         public void Start()
         {
-            var settings = DA.Query<Jupiter.DataModel.ImportSetting>("SELECT [Source],[TableName],[Directory],[FilePattern] FROM [ImportSetting]");
+            var settings = DA.Query<Jupiter.DataModel.ImportSetting>("SELECT [Source],[TableName],[Columns],[Directory],[FilePattern] FROM [ImportSetting]");
 
             foreach (var setting in settings)
             {
@@ -30,7 +30,7 @@ namespace DataImport
                     bulkCopy(file);
 
                     //Process data
-                    DA.Execute("[SP_Import]", new { tableName = setting.TableName, source = setting.Source });
+                    DA.Execute("[SP_Import]", new { tableName = setting.TableName, columns = setting.Columns, source = setting.Source, fileName = Path.GetFileName(file) });
 
                     //Todo:Archive file
                 }

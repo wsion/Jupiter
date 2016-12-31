@@ -18,15 +18,16 @@ GO
 TRUNCATE TABLE [ImportSetting];
 INSERT INTO [ImportSetting]
 VALUES
-('PAYF','TBL1','D:\Github\Jupiter\DataImport\DataFile\','PAYF_USERS_*.TXT','用户表'),
-('PAYF','TBL2','D:\Github\Jupiter\DataImport\DataFile\','PAYF_PRODUCTION_*.TXT','产品表')
+('PAYF','TBL1','Col1,Col3,Col5,Col7,Col9','D:\Github\Jupiter\DataImport\DataFile\','PAYF_USERS_*.TXT','用户表'),
+('ZSMDYF','TBL1','Col1,Col3,Col5,Col7,Col9','D:\Github\Jupiter\DataImport\DataFile\','ZSMDYF_USERS_*.TXT','用户表'),
+('PAYF','TBL2','Col1,Col2,Col3,Col4,Col5','D:\Github\Jupiter\DataImport\DataFile\','PAYF_PRODUCTION_*.TXT','产品表')
 GO
 
 TRUNCATE TABLE [TBL1]
 INSERT INTO [TBL1]
-([Source],[Update],[Col1],[Col2],[Col3],[Col4],[Col5])
+([Uid],[Source],[Update],[Col1],[Col2],[Col3],[Col4],[Col5])
 VALUES
 (
-'PAYF',GETDATE(),'张三','男','重庆市沙坪坝区','138965943279','580'
+'1','PAYF',GETDATE(),'张三','男','重庆市沙坪坝区','138965943279','580'
 )
 GO

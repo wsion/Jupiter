@@ -60,6 +60,7 @@
     <Folder Include="Properties" />
     <Folder Include="StoredProcedure" />
     <Folder Include="Table" />
+    <Folder Include="Function" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Table\ColumnMapping.sql" />
@@ -67,6 +68,7 @@
     <Build Include="Table\DataLoad.sql" />
     <Build Include="Table\ImportSetting.sql" />
     <Build Include="StoredProcedure\SP_Import.sql" />
+    <Build Include="Function\F_CM_Split.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Initialization.sql" />

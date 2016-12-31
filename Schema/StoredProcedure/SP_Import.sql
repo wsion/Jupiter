@@ -1,46 +1,54 @@
 ﻿/************************************
-* Author: Wei Wei
-* Date: 25th Dec 2016
-* Description: 
+Author: Wei Wei
+Date: 25th Dec 2016
+Description: 
+Retrieve data from [DataLoad] table, insert or update to target table.
 *************************************/
 
-CREATE PROCEDURE [dbo].[SP_Import]
+ALTER PROCEDURE [dbo].[SP_Import]
 	@tableName VARCHAR(50),
-	@source VARCHAR(50)
+	@columns VARCHAR(MAX),
+	@source VARCHAR(50),
+	@fileName VARCHAR(50)
 AS
-	DECLARE @sql VARCHAR(1000);
+	DECLARE @sql VARCHAR(MAX);
+	DECLARE @colName VARCHAR(20);
 
 	--Update source and target
 	UPDATE 
 			DataLoad 
 	SET
 			[Source]=@source,
-			[Target]=@tableName
+			[Target]=@tableName,
+			[Columns]=@columns,
+			[SourceFile]=@fileName
 	WHERE
-			[UPDATE] IS NULL;
+			[UPDATE] IS NULL;	
 
-	--Clean target table
-	SET @sql='DELETE FROM '+ @tableName +' WHERE [SOURCE]='''+ @source +'''';
-	EXEC(@sql);	
+	--Insert 
+	SET @sql = 'INSERT INTO ' + @tableName + ' ' +
+	'([Uid],' + @columns + ',[Source],[Update]) '+
+	'SELECT [Uid],' + @columns + ',[Source],GETDATE() FROM DataLoad T1 '+
+	'WHERE NOT EXISTS ( SELECT TOP 1 1 FROM ' + @tableName + ' T2 WHERE T2.[Uid]=T1.[Uid] AND T2.[Source]=t1.[Source]) AND T1.[Update] IS NULL';
 	PRINT @sql;
+	EXEC(@sql);
 
-	--Insert records
-	SET @sql= 
-	'INSERT INTO ['+ @tableName +']
-			(
-			[Source],
-			[Update],
-			[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20]
-			)
-		SELECT 
-			[Source],
-			GETDATE(),
-			[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20]
-		FROM 
-			DataLoad
-		WHERE 
-			[UPDATE] is null'
-
+	--Update
+	SET @sql='UPDATE T1 SET ';
+	DECLARE cur CURSOR FOR 
+		SELECT ITEM_VALUE FROM dbo.F_CM_Split(@columns,',');
+	OPEN cur;
+	FETCH NEXT FROM cur INTO @colName;
+	WHILE (@@FETCH_STATUS=0)
+	BEGIN
+			SET @sql=@sql + @colName + '=T2.' + @colName + ','
+			FETCH NEXT FROM cur INTO @colName;
+	END
+	CLOSE cur;
+	DEALLOCATE CUR;
+	SET @sql=@sql +'[Update]=GETDATE() '+
+			'FROM '+ @tableName +' T1 JOIN DataLoad T2 ON T2.[Uid]=T1.[Uid] AND T2.[Source]=t1.[Source] AND T2.[Update] IS NULL';
+	PRINT @sql;
 	EXEC(@sql);
 
 	--Update loading table
@@ -52,4 +60,4 @@ AS
 
 RETURN 0
 
---EXEC [SP_Import] 'TBL1','PAYF'
+--EXEC [SP_Import] 'TBL1','Col1,Col2,Col3','PAYF','Test.txt'

@@ -54,6 +54,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DataFile\ZSMDYF_USERS_20161225.txt" />
     <Content Include="DataFile\PAYF_USERS_20161225.txt" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿CREATE TABLE [dbo].[DataLoad]
 (
+	[Uid] VARCHAR(50) NULL,
 	[Col1]	NVARCHAR(50) NULL,
 	[Col2]	NVARCHAR(50) NULL,
 	[Col3]	NVARCHAR(50) NULL,
@@ -22,5 +23,7 @@
 	[Col20]	NVARCHAR(50) NULL,
 	[Source] VARCHAR(50) NULL,
 	[Target] VARCHAR(50) NULL,
+	[Columns] VARCHAR(MAX) NULL,
+	[SourceFile] VARCHAR(50) NULL,
 	[Update] DATETIME NULL
 )
