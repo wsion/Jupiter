@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[ColumnMapping]
+(
+	[Id] INT IDENTITY NOT NULL PRIMARY KEY,
+	[TableName] VARCHAR(50) NOT NULL,
+	[ColumnName] VARCHAR(50) NOT NULL,
+	[Alias] VARCHAR(50) NOT NULL
+)

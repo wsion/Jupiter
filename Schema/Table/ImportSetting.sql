@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[ImportSetting]
+(
+	[Id] INT IDENTITY NOT NULL PRIMARY KEY,
+	[Source] VARCHAR(50) NOT NULL,
+	[TableName] VARCHAR(50) NOT NULL,
+	[Directory] VARCHAR(250) NOT NULL,
+	[FilePattern] VARCHAR(50) NOT NULL,
+	[Desc] VARCHAR(50) NOT NULL
+)
