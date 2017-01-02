@@ -13,7 +13,7 @@ namespace DataImport
 {
     class Import
     {
-        private DataAccess DA = new DataAccess("connection");
+        private SqlDataAccess DA = new SqlDataAccess("connection");
 
         private string TableName = "DataLoad";
 

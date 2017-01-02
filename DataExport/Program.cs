@@ -10,6 +10,7 @@ namespace DataExport
     {
         static void Main(string[] args)
         {
+            new Export().Start();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Data.SqlClient;
 
 namespace Jupiter.Utility
 {
-    public class DataAccess
+    public class SqlDataAccess
     {
         private SqlConnection con;
 
@@ -20,7 +20,7 @@ namespace Jupiter.Utility
             }
         }
 
-        public DataAccess(string conName)
+        public SqlDataAccess(string conName)
         {
             var conStr = Jupiter.Utility.Configuration.GetConnection("connection");
             con = this.GenerateConnection(conStr);
@@ -53,5 +53,7 @@ namespace Jupiter.Utility
             con.Close();
             return resut;
         }
+
+
     }
 }
