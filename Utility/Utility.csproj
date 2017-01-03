@@ -55,8 +55,9 @@
     <Compile Include="DataAccess\ConnectionFactory.cs" />
     <Compile Include="DataAccess\DataAccess.cs" />
     <Compile Include="DataAccess\SqlDataAccess.cs" />
-    <Compile Include="Email.cs" />
-    <Compile Include="File.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Mail\MailConfig.cs" />
+    <Compile Include="Mail\MailUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XmlUtility.cs" />
   </ItemGroup>

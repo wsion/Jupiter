@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dapper;
 using Jupiter.Utility;
+using System.Web;
 
 namespace DataImport
 {
@@ -19,7 +20,7 @@ namespace DataImport
 
         public void Start()
         {
-            var settings = DA.Query<Jupiter.DataModel.ImportSetting>("SELECT [Source],[TableName],[Columns],[Directory],[FilePattern] FROM [ImportSetting]");
+            var settings = DA.Query<Jupiter.DataModel.ImportSetting>("SELECT [Source],[TableName],[Columns],[Directory],[ArchiveFolder],[FilePattern] FROM [ImportSetting]");
 
             foreach (var setting in settings)
             {
@@ -32,7 +33,8 @@ namespace DataImport
                     //Process data
                     DA.Execute("[SP_Import]", new { tableName = setting.TableName, columns = setting.Columns, source = setting.Source, fileName = Path.GetFileName(file) });
 
-                    //Todo:Archive file
+                    //Archive file
+                    File.Move(file, string.Format("{0}{1}", setting.ArchiveFolder, Path.GetFileName(file)));
                 }
 
             }
@@ -57,7 +59,12 @@ namespace DataImport
             {
                 DataRow row = dt.NewRow();
                 string[] itemArray = line.Split('|');
-                row.ItemArray = itemArray;
+                string[] decodedArray = new string[itemArray.Length];
+                for (int i = 0; i < itemArray.Length; i++)
+                {
+                    decodedArray[i] = HttpUtility.UrlDecode(itemArray[i]);
+                }
+                row.ItemArray = decodedArray;
                 dt.Rows.Add(row);
                 line = sr.ReadLine();
             } while (!string.IsNullOrEmpty(line));
@@ -72,6 +79,7 @@ namespace DataImport
             bc.WriteToServer(dt);
             connection.Close();
             bc.Close();
+            sr.Close();
         }
     }
 }

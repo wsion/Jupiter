@@ -13,44 +13,40 @@ namespace DataExport
 {
     class Export
     {
+        MailUtility mail = new MailUtility();
 
         public void Start()
         {
-            var jobs = this.getSettings();
+            var jobs = XmlUtility.DeserializeFromFile<ExportJobs>("job.xml").Items;
 
             foreach (var job in jobs)
             {
                 var DA = new DataAccess(job.DbType, job.ConnectionString);
 
-                var path = string.Format(@"{0}\output\{1}_{2}.txt", Environment.CurrentDirectory, job.Prefix, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+                var timeStamp = DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss");
+                var path = string.Format(@"{0}\output\{1}_{2}.txt", Environment.CurrentDirectory, job.Prefix, timeStamp);
+                var pathArch = string.Format(@"{0}\archive\{1}_{2}.txt", Environment.CurrentDirectory, job.Prefix, timeStamp);
+                var count = 0;
                 using (StreamWriter writer = new StreamWriter(path, true))
                 {
-                    DA.LoopSelectResult(
-                        job.Query,
-                        (col, rowEnd) =>
-                        {
-                            writer.Write(HttpUtility.UrlEncode(col) + (rowEnd ? "" : "|"));
-                        },
-                        () =>
-                        {
-                            writer.WriteLine();
-                        });
+                    count = DA.LoopSelectResult(
+                         job.Query,
+                         (col, rowEnd) =>
+                         {
+                             writer.Write(HttpUtility.UrlEncode(col) + (rowEnd ? "" : "|"));
+                         },
+                         () =>
+                         {
+                             writer.WriteLine();
+                         });
                 }
 
                 upload(path);
-            }
 
-            //todo: Archive file
-            //todo: Email alert
-        }
+                File.Move(path, pathArch);
 
-        private List<ExportJob> getSettings()
-        {
-            using (StreamReader reader = new StreamReader(Environment.CurrentDirectory + "\\job.xml"))
-            {
-                var xml = reader.ReadToEnd();
-                var list = XmlUtility.DeserializeObject<ExportJobs>(xml);
-                return list.Items;
+                mail.SendEmail(Configuration.GetApp("adminEmail"), "数据导出",
+                    string.Format("{0}导出{1}条记录", job.SourceName, count));
             }
         }
 
@@ -60,7 +56,7 @@ namespace DataExport
             var client = new WebClient();
             Console.WriteLine("Uploading {0}", path);
             byte[] responseArray = client.UploadFile(apiUrl, path);
-            Console.WriteLine("Response: {0}", Encoding.Unicode.GetString(responseArray));
+            Console.WriteLine("Response: {0}", Encoding.ASCII.GetString(responseArray));
         }
     }
 }

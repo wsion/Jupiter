@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Mail>
+  <Host>smtp.163.com</Host>
+  <Port>25</Port>
+  <RequireCredentials>true</RequireCredentials>
+  <UserName>auto_notification@163.com</UserName>
+  <Password>passw0rd</Password>
+  <Sender>auto_notification@163.com</Sender>
+</Mail>

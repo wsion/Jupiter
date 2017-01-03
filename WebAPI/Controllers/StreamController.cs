@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
             var path = Path.Combine(Jupiter.Utility.Configuration.GetApp("FileFolder"), file.FileName);
             file.SaveAs(path);
 
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse(HttpStatusCode.OK, new { Success = true });
         }
     }
 }

@@ -5,6 +5,7 @@
 	[TableName] VARCHAR(50) NOT NULL,
 	[Columns] VARCHAR(MAX) NOT NULL,
 	[Directory] VARCHAR(250) NOT NULL,
+	[ArchiveFolder] VARCHAR(250) NOT NULL,
 	[FilePattern] VARCHAR(50) NOT NULL,
 	[Desc] VARCHAR(50) NOT NULL
 )

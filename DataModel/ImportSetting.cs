@@ -12,6 +12,7 @@ namespace Jupiter.DataModel
         public string TableName { get; set; }
         public string Columns { get; set; }
         public string Directory { get; set; }
+        public string ArchiveFolder { get; set; }
         public string FilePattern { get; set; }
     }
 }

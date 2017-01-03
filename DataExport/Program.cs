@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Jupiter.Utility;
+using System;
 
 namespace DataExport
 {
@@ -10,7 +7,20 @@ namespace DataExport
     {
         static void Main(string[] args)
         {
-            new Export().Start();
+            try
+            {
+                new Export().Start();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(ex.ToString());
+
+                try
+                {
+                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
+                }
+                catch { }
+            }
         }
     }
 }

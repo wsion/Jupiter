@@ -5,7 +5,7 @@ Description:
 Retrieve data from [DataLoad] table, insert or update to target table.
 *************************************/
 
-ALTER PROCEDURE [dbo].[SP_Import]
+CREATE PROCEDURE [dbo].[SP_Import]
 	@tableName VARCHAR(50),
 	@columns VARCHAR(MAX),
 	@source VARCHAR(50),

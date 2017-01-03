@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Jupiter.Utility;
+using System;
 
 namespace DataImport
 {
@@ -14,10 +11,15 @@ namespace DataImport
             {
                 new Import().Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                Console.ReadLine();
+                Logger.Log(ex.ToString());
+
+                try
+                {
+                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导入错误", ex.ToString());
+                }
+                catch { }
             }
         }
     }
