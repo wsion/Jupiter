@@ -1,5 +1,6 @@
 ﻿using Jupiter.Utility;
 using System;
+using System.Threading.Tasks;
 
 namespace DataExport
 {
@@ -9,7 +10,8 @@ namespace DataExport
         {
             try
             {
-                new Export().Start();
+                Task<string> task = Task.Run(() => new Export().Start());
+                var result = task.Result;
             }
             catch (Exception ex)
             {

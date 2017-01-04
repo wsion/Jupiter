@@ -10,6 +10,9 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using WebAPI.Providers;
 using WebAPI.Models;
+using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.Owin.Security;
 
 namespace WebAPI
 {
@@ -36,8 +39,8 @@ namespace WebAPI
             OAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                Provider = new JupiterAuthorizationServerProvider(),
+                //AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 // In production mode set AllowInsecureHttp = false
                 AllowInsecureHttp = true
@@ -45,25 +48,32 @@ namespace WebAPI
 
             // Enable the application to use bearer tokens to authenticate users
             app.UseOAuthBearerTokens(OAuthOptions);
+        }
+    }
 
-            // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+    public class JupiterAuthorizationServerProvider : OAuthAuthorizationServerProvider
+    {
+        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
+        {
+            string clientId;
+            string clientSecret;
+            context.TryGetBasicCredentials(out clientId, out clientSecret);
+            if (clientId == Jupiter.Utility.Constants.ClientID
+                && clientSecret == Jupiter.Utility.Constants.ClientSecrect)
+            {
+                context.Validated(clientId);
+            }
 
-            //app.UseTwitterAuthentication(
-            //    consumerKey: "",
-            //    consumerSecret: "");
+            return base.ValidateClientAuthentication(context);
+        }
 
-            //app.UseFacebookAuthentication(
-            //    appId: "",
-            //    appSecret: "");
-
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+        public override Task GrantClientCredentials(OAuthGrantClientCredentialsContext context)
+        {
+            var oAuthIdentity = new ClaimsIdentity(context.Options.AuthenticationType);
+            oAuthIdentity.AddClaim(new Claim(ClaimTypes.Name, "Jupiter App"));
+            var ticket = new AuthenticationTicket(oAuthIdentity, new AuthenticationProperties());
+            context.Validated(ticket);
+            return base.GrantClientCredentials(context);
         }
     }
 }

@@ -1,3 +1,0 @@
-1|PAYF|TBL1|Col1%2cCol3%2cCol5%2cCol7%2cCol9|D%3a%5cGithub%5cJupiter%5cDataImport%5cDataFile%5c|D%3a%5cGithub%5cJupiter%5cDataImport%5cArchive%5c|PAYF_USERS_*.TXT|%e7%94%a8%e6%88%b7%e8%a1%a8
-2|ZSMDYF|TBL1|Col1%2cCol3%2cCol5%2cCol7%2cCol9|D%3a%5cGithub%5cJupiter%5cDataImport%5cDataFile%5c|D%3a%5cGithub%5cJupiter%5cDataImport%5cArchive%5c|ZSMDYF_USERS_*.TXT|%e7%94%a8%e6%88%b7%e8%a1%a8
-3|PAYF|TBL2|Col1%2cCol2%2cCol3%2cCol4%2cCol5|D%3a%5cGithub%5cJupiter%5cDataImport%5cDataFile%5c|D%3a%5cGithub%5cJupiter%5cDataImport%5cArchive%5c|PAYF_PRODUCTION_*.TXT|%e4%ba%a7%e5%93%81%e8%a1%a8

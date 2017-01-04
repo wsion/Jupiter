@@ -11,6 +11,7 @@ using Jupiter.Utility;
 
 namespace WebAPI.Controllers
 {
+    [Authorize]
     public class StreamController : ApiController
     {
         [HttpPost, Route("api/stream/upload")]
