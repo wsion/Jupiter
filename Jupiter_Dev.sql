@@ -30,7 +30,11 @@ truncate table [dbo].[DataLoad]
 truncate table TBL1
 truncate table TBL2
 
-SELECT * FROM TBL1
-SELECT * FROM TBL2
 
 exec [dbo].[SP_GetData] 'TBL1'
+exec [dbo].[SP_GetData] 'TBL2'
+
+
+SELECT * FROM TBL1
+SELECT * FROM TBL2
+SELECT * FROM [dbo].[ImportSetting]
