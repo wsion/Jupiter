@@ -7,10 +7,11 @@
     <ProjectGuid>{E99E9AA0-EA53-4B82-A086-BB2F4F2DCE2C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UserControls</RootNamespace>
-    <AssemblyName>UserControls</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <RootNamespace>Jupiter.UserControls</RootNamespace>
+    <AssemblyName>Jupiter.UserControls</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SelectedColumnChangedEvent.cs" />
     <Compile Include="TableControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

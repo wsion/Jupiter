@@ -5,11 +5,10 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
-namespace UserControls
+namespace Jupiter.UserControls
 {
     public partial class TableControl : UserControl
     {
@@ -24,7 +23,7 @@ namespace UserControls
             set
             {
                 _tableName = value;
-                label3.Text = _tableName;
+                label3.Text = TableOwner + "." + value;
             }
             get
             {
@@ -32,14 +31,41 @@ namespace UserControls
             }
         }
         public List<string> SelectedColumns { set; get; }
+        public string UniqueName
+        {
+            get
+            {
+                return this.TableOwner + "." + this.TableName;
+            }
+        }
+        public bool Selected { set; get; }
 
         //Events
-        public event EventHandler CloseClicked;
-        public event EventHandler SelectionChanged;
 
-        public TableControl()
+        /// <summary>
+        /// Close button clicked
+        /// </summary>
+        public event EventHandler CloseClicked;
+        /// <summary>
+        /// Checkbox of TableControl checked
+        /// </summary>
+        public event EventHandler CheckedChanged;
+        /// <summary>
+        /// Checkebox in DataGridView CheckState changed
+        /// </summary>
+        public event SelectedColumnChangedEventHandler SelectedColumnChanged;
+
+        private TableControl()
         {
             InitializeComponent();
+        }
+
+        public TableControl(string connectionStr, string tableOwner, string tableName) : this()
+        {
+            this.ConnectionStr = connectionStr;
+            this.TableOwner = tableOwner;
+            this.TableName = tableName;
+            buildTableControl(this.TableOwner, this.TableName);
         }
 
         private void buildTableControl(string owner, string tableName)
@@ -77,12 +103,26 @@ namespace UserControls
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var chk = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
+            var row = dataGridView1.Rows[e.RowIndex];
+            var chk = row.Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
             if (chk != null)
             {
                 dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                 getSelectedRows();
-                SelectionChanged(null, new EventArgs());
+
+                if (this.SelectedColumnChanged != null)
+                {
+                    var columnName = string.Format("{0}.{1}.{2}",
+                        this.TableOwner,
+                        this.TableName,
+                        row.Cells["Column"].Value.ToString());
+                    var isSelected = (bool)row.Cells["Checked"].Value;
+
+                    this.SelectedColumnChanged(
+                        sender,
+                        new SelectedColumnChangedEventArgs(columnName, isSelected)
+                        );
+                }
             }
         }
 
@@ -103,7 +143,10 @@ namespace UserControls
 
         private void label2_Click(object sender, EventArgs e)
         {
-            CloseClicked(sender, e);
+            if (CloseClicked != null)
+            {
+                CloseClicked(sender, e);
+            }
         }
 
         private void panel1_MouseDown(object sender, MouseEventArgs e)
@@ -133,6 +176,15 @@ namespace UserControls
             if (this.Top <= 0)
             {
                 this.Top = 1;
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            this.Selected = checkBox1.Checked;
+            if (this.CheckedChanged != null)
+            {
+                this.CheckedChanged(sender, e);
             }
         }
     }

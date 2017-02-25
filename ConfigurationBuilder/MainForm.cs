@@ -9,12 +9,14 @@ using System.Windows.Forms;
 using System.Data.Sql;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using Jupiter.UserControls;
 
 namespace ConfigurationBuilder
 {
     public partial class MainForm : Form
     {
         private string connectionStr = "Data Source=.;Initial Catalog=Jupiter;Integrated Security=True;";
+        private List<TableControl> checkedTables = new List<TableControl>();
 
         public MainForm()
         {
@@ -42,70 +44,54 @@ namespace ConfigurationBuilder
                 }
             }
         }
-                
-        public class TableEntity
-        {
-            public string Column { get; set; }
-            public string DataType { get; set; }
-            public bool Checked { get; set; }
-        }
-
-        private Point mouseDownLocation;
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-            mouseDownLocation = e.Location;
-        }
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-
-            if (panel1.Left > 0 && panel1.Top > 0)
-            {
-                panel1.Left = e.X + panel1.Left - mouseDownLocation.X;
-                panel1.Top = e.Y + panel1.Top - mouseDownLocation.Y;
-            }
-
-            if (panel1.Left <= 0)
-            {
-                panel1.Left = 1;
-            }
-
-
-            if (panel1.Top <= 0)
-            {
-                panel1.Top = 1;
-            }
-
-        }
 
         private void treeViewTables_DoubleClick(object sender, EventArgs e)
         {
             var node = treeViewTables.SelectedNode.Tag as DataRow;
             if (node != null)
             {
-                //buildTableControl(node[1].ToString(), node[2].ToString());
-                string tableName = node[1].ToString() + "." + node[2].ToString();
-                label1.Text = "表名:" + tableName;
-                label1.Tag = tableName;
+                addTableControl(node[1].ToString(), node[2].ToString());
             }
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void addTableControl(string tableOwner, string tableName)
         {
-            splitContainer2.Panel1.Controls.Remove(panel1);
-        }
+            var tableControl = new Jupiter.UserControls.TableControl(
+                   this.connectionStr,
+                   tableOwner,
+                   tableName);
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            var chk = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewCheckBoxCell;
-            if (chk != null)
+            tableControl.CloseClicked += (obj, args) =>
             {
-                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
-                generateSQL();
-            }
+                this.splitContainer2.Panel1.Controls.Remove(tableControl);
+            };
+
+            tableControl.CheckedChanged += (obj, args) =>
+            {
+                if (tableControl.Selected)
+                {
+                    checkedTables.Add(tableControl);
+                }
+                else
+                {
+                    checkedTables.Remove(tableControl);
+                }
+                buttonJoinTables.Enabled = this.checkedTables.Count == 2;
+            };            
+
+            tableControl.SelectedColumnChanged += (obj, args) =>
+            {
+                if (args.IsSelected)
+                {
+                    this.listBoxSelectedColumns.Items.Add(args.ColumnName);
+                }
+                else
+                {
+                    this.listBoxSelectedColumns.Items.Remove(args.ColumnName);
+                }
+            };
+
+            this.splitContainer2.Panel1.Controls.Add(tableControl);
         }
 
         private void generateSQL()
@@ -114,16 +100,8 @@ namespace ConfigurationBuilder
             string sqlPreview = "SELECT TOP 5 {0} FROM {1}";
             var columns = new List<string>();
 
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                if ((bool)row.Cells["Checked"].Value)
-                {
-                    columns.Add(string.Format("[{0}]", row.Cells["Column"].Value.ToString()));
-                }
-            }
-
-            sql = string.Format(sql, string.Join(",", columns.ToArray()), label1.Tag as string);
-            sqlPreview = string.Format(sql, string.Join(",", columns.ToArray()), label1.Tag as string);
+            sql = string.Format(sql, string.Join(",", columns.ToArray()), "tablename");
+            sqlPreview = string.Format(sql, string.Join(",", columns.ToArray()), "tablename");
 
             generatePreviewGrid(sqlPreview);
         }
@@ -133,7 +111,12 @@ namespace ConfigurationBuilder
             SqlDataAdapter da = new SqlDataAdapter(sql, new SqlConnection(connectionStr));
             DataSet ds = new DataSet();
             da.Fill(ds);
-            dataGridView2.DataSource = ds.Tables[0];
+            dataGridViewPreview.DataSource = ds.Tables[0];
+        }
+
+        private void buttonJoinTables_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
