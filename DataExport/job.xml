@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Jobs>
-  <Job>
+  <!--<Job>
     <ID>1</ID>
     <Source>PAYF</Source>
     <SourceName>平安药房(代码PAYF)用户表</SourceName>
@@ -17,6 +17,33 @@
     <DbType>mssql</DbType>
     <ConnectionString>Data Source=.;Initial Catalog=Jupiter;Integrated Security=True;</ConnectionString>
     <Query>select * from ImportSetting</Query>
+  </Job>-->
+  <Job>
+    <ID>1</ID>
+    <Source>ERP</Source>
+    <SourceName>ERP会员表</SourceName>
+    <Prefix>ERP_u_memcard_reg_</Prefix>
+    <DbType>mssql</DbType>
+    <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
+    <Query>select * from u_memcard_reg</Query>
+  </Job>
+  <Job>
+    <ID>2</ID>
+    <Source>ERP</Source>
+    <SourceName>ERP订单</SourceName>
+    <Prefix>ERP_u_sale_m_</Prefix>
+    <DbType>mssql</DbType>
+    <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
+    <Query>select * from u_sale_m</Query>
+  </Job>
+  <Job>
+    <ID>3</ID>
+    <Source>ERP</Source>
+    <SourceName>ERP库存</SourceName>
+    <Prefix>ERP_u_store_m_</Prefix>
+    <DbType>mssql</DbType>
+    <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
+    <Query>select * from u_store_m</Query>
   </Job>
 </Jobs>
 

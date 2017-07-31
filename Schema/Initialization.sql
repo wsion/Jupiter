@@ -11,16 +11,15 @@ GO
 TRUNCATE TABLE [Source];
 INSERT INTO [Source]
 VALUES
-('PAYF','平安药房'),
-('ZSMDYF','真善美大药房')
+('ERP','测试用药房')
 GO
 
 TRUNCATE TABLE [ImportSetting];
 INSERT INTO [ImportSetting]
 VALUES
-('PAYF','TBL1','Col1,Col3,Col5,Col7,Col9','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','PAYF_USERS_*.TXT','用户表'),
-('ZSMDYF','TBL1','Col1,Col3,Col5,Col7,Col9','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ZSMDYF_USERS_*.TXT','用户表'),
-('PAYF','TBL2','Col1,Col2,Col3,Col4,Col5','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','PAYF_PRODUCTION_*.TXT','产品表')
+('ERP','TBL1','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20],[Col21],[Col22],[Col23],[Col24],[Col25],[Col26],[Col27]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_memcard_reg_*.TXT','用户表'),
+('ERP','TBL2','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20],[Col21],[Col22],[Col23],[Col24],[Col25],[Col26],[Col27],[Col28],[Col29],[Col30],[Col31],[Col32],[Col33]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_sale_m_*.TXT','订单表'),
+('ERP','TBL3','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20],[Col21],[Col22],[Col23],[Col24],[Col25],[Col26],[Col27],[Col28],[Col29],[Col30],[Col31],[Col32],[Col33],[Col34],[Col35],[Col36]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_store_m_*.TXT','库存表')
 GO
 
 TRUNCATE TABLE [TBL1]
