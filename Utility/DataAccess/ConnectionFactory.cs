@@ -22,9 +22,9 @@ namespace Jupiter.Utility
                 case "mysql":
                     con = new MySql.Data.MySqlClient.MySqlConnection(conStr);
                     break;
-                case "oracle":
-                    con = new Oracle.DataAccess.Client.OracleConnection(conStr);
-                    break;
+                //case "oracle":
+                //    con = new Oracle.DataAccess.Client.OracleConnection(conStr);
+                //    break;
                 default:
                     con = null;
                     break;

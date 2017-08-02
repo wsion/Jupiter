@@ -10,8 +10,9 @@ namespace DataExport
         {
             try
             {
-                Task<string> task = Task.Run(() => new Export().Start());
-                var result = task.Result;
+                //Task<string> task = Task.Run(() => new Export().Start());
+                //var result = task.Result;
+                new Export().Start();
             }
             catch (Exception ex)
             {

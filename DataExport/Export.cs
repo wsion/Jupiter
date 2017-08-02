@@ -26,7 +26,7 @@ namespace DataExport
             apiHost = Configuration.GetApp("apiHost");
         }
 
-        public async Task<string> Start()
+        public void Start()
         {
             var jobs = XmlUtility.DeserializeFromFile<ExportJobs>("job.xml").Items;
 
@@ -53,7 +53,7 @@ namespace DataExport
                     writer.Close();
                 }
 
-                var msg = await upload(path, filename);
+                var msg = upload(path, filename);
 
                 File.Move(path, pathArch);
 
@@ -62,12 +62,11 @@ namespace DataExport
                     msg.StatusCode == HttpStatusCode.OK ? "上传文件成功。" : "上传文件失败:" + msg.ToString()));
             }
 
-            return string.Empty;
         }
 
-        private async Task<HttpResponseMessage> upload(string path, string fileName)
+        private HttpResponseMessage upload(string path, string fileName)
         {
-            await getToken();
+            getToken();
 
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
@@ -85,14 +84,14 @@ namespace DataExport
 
                 Console.WriteLine("Uploading {0}", path);
                 //byte[] responseArray = client.UploadFile(apiUrl, path);
-                var response = await client.PostAsync(Configuration.GetApp("apiUrl"), form);
+                var response = client.PostAsync(Configuration.GetApp("apiUrl"), form).Result;
                 Logger.Log("File [{0}], Response:\r\n{1}", fileName, response);
                 stream.Close();
                 return response;
             }
         }
 
-        private async Task getToken()
+        private void getToken()
         {
             if (!string.IsNullOrEmpty(token))
             {
@@ -112,8 +111,8 @@ namespace DataExport
                         Encoding.ASCII.GetBytes(Constants.ClientID + ":" + Constants.ClientSecrect)
                         ));
 
-            var response = await httpClient.PostAsync("token", new FormUrlEncodedContent(parameters));
-            var responseValue = await response.Content.ReadAsStringAsync();
+            var response = httpClient.PostAsync("token", new FormUrlEncodedContent(parameters)).Result;
+            var responseValue = response.Content.ReadAsStringAsync().Result;
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 token = JObject.Parse(responseValue)["access_token"].Value<string>();
