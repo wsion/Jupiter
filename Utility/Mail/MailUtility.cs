@@ -32,8 +32,13 @@ namespace Jupiter.Utility
         {
             SmtpClient client = GetSmtpClient();
 
-            using (MailMessage mm = new MailMessage(config.Sender, recipients))
+            using (MailMessage mm = new MailMessage())
             {
+                mm.From = new MailAddress(config.Sender);
+                foreach (var recipient in recipients.Split(';'))
+                {
+                    mm.To.Add(new MailAddress(recipient));
+                }
                 mm.Subject = subject;
                 mm.Body = body;
                 mm.IsBodyHtml = true;
