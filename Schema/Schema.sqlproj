@@ -90,10 +90,11 @@
   <ItemGroup>
     <Build Include="Table\ColumnMapping.sql" />
     <Build Include="StoredProcedure\SP_GetData.sql" />
-    <Build Include="Table\DataLoad.sql" />
+    <Build Include="Table\DataLoad1.sql" />
     <Build Include="Table\ImportSetting.sql" />
     <Build Include="StoredProcedure\SP_Import.sql" />
     <Build Include="Function\F_CM_Split.sql" />
+    <Build Include="Table\DataLoad2.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Initialization.sql" />

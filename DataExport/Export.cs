@@ -28,12 +28,17 @@ namespace DataExport
 
         public void Start()
         {
+            //1. Read job items from job.xml
             var jobs = XmlUtility.DeserializeFromFile<ExportJobs>("job.xml").Items;
 
             foreach (var job in jobs)
             {
                 var DA = new DataAccess(job.DbType, job.ConnectionString);
 
+                //2. Generate file
+                // - File name: prefix_yyyy_MM-dd_HH_mm_ss.txt
+                // - Save to .\output\ folder
+                // - Archive to .\archive\ folder
                 var filename = string.Format("{0}_{1}.txt", job.Prefix, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
                 var path = string.Format(@"{0}\output\{1}", Application.StartupPath, filename);
                 var pathArch = string.Format(@"{0}\archive\{1}", Application.StartupPath, filename);
@@ -53,10 +58,12 @@ namespace DataExport
                     writer.Close();
                 }
 
+                //3. Upload to file server
                 var msg = upload(path, filename);
 
                 File.Move(path, pathArch);
 
+                //4. Send notification email
                 mail.SendEmail(Configuration.GetApp("adminEmail"), "数据导出",
                     string.Format("<b>{0}</b>导出<b>{1}</b>条记录，{2}", job.SourceName, count,
                     msg.StatusCode == HttpStatusCode.OK ? "上传文件成功。" : "上传文件失败:" + msg.ToString()));
@@ -83,7 +90,6 @@ namespace DataExport
                 form.Add(streamContent);
 
                 Console.WriteLine("Uploading {0}", path);
-                //byte[] responseArray = client.UploadFile(apiUrl, path);
                 var response = client.PostAsync(Configuration.GetApp("apiUrl"), form).Result;
                 Logger.Log("File [{0}], Response:\r\n{1}", fileName, response);
                 stream.Close();

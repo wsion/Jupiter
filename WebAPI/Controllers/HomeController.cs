@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WebAPI.Controllers
 {
-    public class TestController : Controller
+    public class HomeController : Controller
     {
         // GET: Test
         public ActionResult Index()

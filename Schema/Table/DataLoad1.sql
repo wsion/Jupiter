@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[DataLoad]
+﻿CREATE TABLE [dbo].[DataLoad1]
 (
 	[Uid] VARCHAR(50) NULL,
 	[Col1]	NVARCHAR(50) NULL,
@@ -52,8 +52,7 @@
 	[Col49]	NVARCHAR(50) NULL,
 	[Col50]	NVARCHAR(50) NULL,
 	[Source] VARCHAR(50) NULL,
-	[Target] VARCHAR(50) NULL,
-	[Columns] VARCHAR(MAX) NULL,
+	[Target] VARCHAR(50) NULL,	
 	[SourceFile] VARCHAR(50) NULL,
 	[Update] DATETIME NULL
 )

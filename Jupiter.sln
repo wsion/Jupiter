@@ -21,6 +21,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigurationBuilder", "Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserControls", "UserControls\UserControls.csproj", "{E99E9AA0-EA53-4B82-A086-BB2F4F2DCE2C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{AB604586-5D52-442E-BB9B-407B0A1A7BDE}"
+	ProjectSection(SolutionItems) = preProject
+		Doc\ReadMe.txt = Doc\ReadMe.txt
+		Doc\Version.docx = Doc\Version.docx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

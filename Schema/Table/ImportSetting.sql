@@ -2,7 +2,8 @@
 (
 	[Id] INT IDENTITY NOT NULL PRIMARY KEY,
 	[Source] VARCHAR(50) NOT NULL,
-	[TableName] VARCHAR(50) NOT NULL,
+	[DataLoadTableName] VARCHAR(50) NOT NULL,
+	[TargetTableName] VARCHAR(50) NOT NULL,
 	[Columns] VARCHAR(MAX) NOT NULL,
 	[Directory] VARCHAR(250) NOT NULL,
 	[ArchiveFolder] VARCHAR(250) NOT NULL,

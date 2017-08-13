@@ -15,7 +15,14 @@ namespace Jupiter.Utility
 
         public static string GetApp(string name)
         {
-            return ConfigurationManager.AppSettings[name].ToString();
+            if (ConfigurationManager.AppSettings[name] != null)
+            {
+                return ConfigurationManager.AppSettings[name].ToString();
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

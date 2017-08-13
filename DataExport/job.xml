@@ -1,23 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Jobs>
-  <!--<Job>
-    <ID>1</ID>
-    <Source>PAYF</Source>
-    <SourceName>平安药房(代码PAYF)用户表</SourceName>
-    <Prefix>PAYF_USERS_</Prefix>
-    <DbType>oracle</DbType>
-    <ConnectionString>User Id=system; Password=123456;Data Source=XE;DBA Privilege=SYSDBA;</ConnectionString>
-    <Query>select * from hr.emp</Query>
-  </Job>
-  <Job>
-    <ID>2</ID>
-    <Source>PAYF</Source>
-    <SourceName>平安药房(代码PAYF)产品表</SourceName>
-    <Prefix>PAYF_PRODUCTION_</Prefix>
-    <DbType>mssql</DbType>
-    <ConnectionString>Data Source=.;Initial Catalog=Jupiter;Integrated Security=True;</ConnectionString>
-    <Query>select * from ImportSetting</Query>
-  </Job>-->
   <Job>
     <ID>1</ID>
     <Source>ERP</Source>

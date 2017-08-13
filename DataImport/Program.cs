@@ -17,7 +17,7 @@ namespace DataImport
 
                 try
                 {
-                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导入错误", ex.ToString());
+                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导入错误(计划任务)", ex.ToString());
                 }
                 catch { }
             }
