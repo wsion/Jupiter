@@ -35,8 +35,8 @@ namespace DataExport
                 var DA = new DataAccess(job.DbType, job.ConnectionString);
 
                 var filename = string.Format("{0}_{1}.txt", job.Prefix, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
-                var path = string.Format(@"{0}\output\{1}", Environment.CurrentDirectory, filename);
-                var pathArch = string.Format(@"{0}\archive\{1}", Environment.CurrentDirectory, filename);
+                var path = string.Format(@"{0}\output\{1}", Application.StartupPath, filename);
+                var pathArch = string.Format(@"{0}\archive\{1}", Application.StartupPath, filename);
                 var count = 0;
                 using (StreamWriter writer = new StreamWriter(path, true))
                 {

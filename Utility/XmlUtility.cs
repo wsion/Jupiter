@@ -109,12 +109,12 @@ namespace Jupiter.Utility
         public static T DeserializeFromFile<T>(string filePath)
         {
             T obj;
-            using (StreamReader reader = new StreamReader(string.Format("{0}\\{1}", Environment.CurrentDirectory, filePath)))
+            using (StreamReader reader = new StreamReader(string.Format("{0}\\{1}", Application.StartupPath, filePath)))
             {
                 var xml = reader.ReadToEnd();
                 obj = XmlUtility.DeserializeObject<T>(xml);
             }
-                return obj;
+            return obj;
         }
 
         public static string SerializeObject<T>(T obj)

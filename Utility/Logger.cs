@@ -13,7 +13,7 @@ namespace Jupiter.Utility
         public static void Log(string msg)
         {
             var path = string.Format("{0}\\log\\{1}_{2}.log",
-                Environment.CurrentDirectory, DateTime.Now.ToString("yyyy_MM_dd"),
+                Application.StartupPath, DateTime.Now.ToString("yyyy_MM_dd"),
                 Process.GetCurrentProcess().Id);
             using (StreamWriter writer = new StreamWriter(path, true))
             {
