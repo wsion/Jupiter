@@ -11,6 +11,7 @@ namespace Jupiter.DataModel
         public string Source { get; set; }
         public string DataLoadTableName { get; set; }
         public string TargetTableName { get; set; }
+        public string KeyColumns { get; set; }
         public string Columns { get; set; }
         public string Directory { get; set; }
         public string ArchiveFolder { get; set; }

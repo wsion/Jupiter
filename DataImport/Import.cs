@@ -26,7 +26,7 @@ namespace DataImport
         public void Start(string fileName = null)
         {
             var allSettingRecords = DA.Query<Jupiter.DataModel.ImportSetting>(
-                "SELECT [Source],[DataLoadTableName],[TargetTableName],[Columns],[Directory],[ArchiveFolder],[FilePattern] FROM [ImportSetting]");
+                "SELECT [Source],[DataLoadTableName],[TargetTableName],[KeyColumns],[Columns],[Directory],[ArchiveFolder],[FilePattern] FROM [ImportSetting]");
             IEnumerable<Jupiter.DataModel.ImportSetting> settings;
 
             if (fileName != null)
@@ -36,7 +36,11 @@ namespace DataImport
                 {
                     var pattern = p.FilePattern;
                     var filePrefix = pattern.Substring(0, pattern.Length - FILE_SUFFIX_LENGTH);
-                    return pattern.StartsWith(filePrefix);
+                    Log.Debug("fileName:[{0}],prefix:[{1}], [{2}]", 
+                        fileName, 
+                        filePrefix, 
+                        fileName.StartsWith(filePrefix));
+                    return fileName.StartsWith(filePrefix);
                 });
             }
             else
@@ -44,7 +48,7 @@ namespace DataImport
                 settings = allSettingRecords;
             }
 
-            foreach (var setting in settings)
+            foreach (var setting in settings.ToList())
             {
                 var files = Directory.GetFiles(setting.Directory, setting.FilePattern);
 
@@ -53,7 +57,7 @@ namespace DataImport
                     var fName = Path.GetFileName(file);
                     if(fileName !=null && fName != fileName)
                     {
-                        break;
+                        continue;
                     }
 
                     bulkCopy(file, setting.DataLoadTableName);
@@ -64,6 +68,7 @@ namespace DataImport
                         {
                             dataloadTableName = setting.DataLoadTableName,
                             targetTableName = setting.TargetTableName,
+                            keyColumns = setting.KeyColumns,
                             columns = setting.Columns,
                             source = setting.Source,
                             fileName = fName

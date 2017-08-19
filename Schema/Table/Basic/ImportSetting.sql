@@ -4,6 +4,7 @@
 	[Source] VARCHAR(50) NOT NULL,
 	[DataLoadTableName] VARCHAR(50) NOT NULL,
 	[TargetTableName] VARCHAR(50) NOT NULL,
+	[KeyColumns] VARCHAR(MAX) NOT NULL,
 	[Columns] VARCHAR(MAX) NOT NULL,
 	[Directory] VARCHAR(250) NOT NULL,
 	[ArchiveFolder] VARCHAR(250) NOT NULL,

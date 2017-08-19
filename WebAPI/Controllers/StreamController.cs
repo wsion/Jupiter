@@ -46,13 +46,9 @@ namespace WebAPI.Controllers
             {
                 Log.Error(ex.Message);
 
-                try
-                {
-                  MailUtility.Instance.SendEmail(
-                        Jupiter.Utility.Configuration.GetApp("adminEmail"), "数据导入错误(Web Host)",
-                        ex.ToString());
-                }
-                catch { }
+                MailUtility.Instance.SendEmail(
+                      Jupiter.Utility.Configuration.GetApp("adminEmail"), "数据导入错误(Web Host)",
+                      ex.ToString());
             }
         }
 

@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[GL_CUSTOM] --门店基本信息表
+(
+	[TJBH]	NVARCHAR(20) NOT NULL PRIMARY KEY, --门店编号
+	[MC]	NVARCHAR(50) NULL --门店名称
+)

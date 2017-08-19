@@ -1,4 +1,8 @@
-﻿CREATE FUNCTION [dbo].[F_CM_Split] (@text VARCHAR(MAX), @delimiter VARCHAR(1)=' ')
+﻿CREATE FUNCTION [dbo].[F_CM_Split] 
+(
+	@text VARCHAR(MAX), 
+	@delimiter VARCHAR(1)=' '
+)
 RETURNS @Strings TABLE
 (
     ITEM_VALUE    VARCHAR(MAX)

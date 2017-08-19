@@ -11,22 +11,127 @@
 TRUNCATE TABLE [Source];
 INSERT INTO [Source]
 VALUES
-('ERP','测试用药房')
+('01','联想桥店'),
+('02','天顺康大药房')
 GO
 
 TRUNCATE TABLE [ImportSetting];
+
+--INSERT INTO [ImportSetting]
+--VALUES
+--	('ERP',
+--	'DataLoad1',
+--	'TBL1',
+--	'[Col1],[Col2],[Col3],[Col4]',
+--	'D:\Github\Jupiter\DataImport\DataFile\',
+--	'D:\Github\Jupiter\DataImport\Archive\',
+--	'ERP_u_memcard_reg_*.TXT',
+--	'用户表'),
+
 INSERT INTO [ImportSetting]
 VALUES
-('ERP','DataLoad1','TBL1','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9],[Col10],[Col11],[Col12],[Col13],[Col14],[Col15],[Col16],[Col17],[Col18],[Col19],[Col20],[Col21],[Col22],[Col23],[Col24],[Col25],[Col26],[Col27]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_memcard_reg_*.TXT','用户表'),
-('ERP','DataLoad2','TBL2','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_sale_m_*.TXT','订单表')
---('ERP','DataLoad3','TBL3','[Col1],[Col2],[Col3],[Col4],[Col5],[Col6],[Col7],[Col8],[Col9]','D:\Github\Jupiter\DataImport\DataFile\','D:\Github\Jupiter\DataImport\Archive\','ERP_u_store_m_*.TXT','库存表')
+	('01',
+	'DataLoad_GL_CUSTOM',
+	'GL_CUSTOM',
+	'[TJBH]',
+	'[MC]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_u_org_busi_ini_data_*.TXT',
+	'门店基本信息表'),
+	('02',
+	'DataLoad_GL_CUSTOM',
+	'GL_CUSTOM',
+	'[TJBH]',
+	'[MC]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_u_org_busi_ini_data_*.TXT',
+	'门店基本信息表')
+
+INSERT INTO [ImportSetting]
+VALUES
+	('01',
+	'DataLoad_YW_KCK',
+	'YW_KCK',
+	'[HH]',
+	'[PM],[SCDW],[GG],[TM],[PZWH],[LSJ],[HYJ]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_u_ware_*.TXT',
+	'产品基本信息表'),
+	('02',
+	'DataLoad_YW_KCK',
+	'YW_KCK',
+	'[HH]',
+	'[PM],[SCDW],[GG],[TM],[PZWH],[LSJ],[HYJ]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'02_u_ware_*.TXT',
+	'产品基本信息表')
+
+INSERT INTO [ImportSetting]
+VALUES
+	('01',
+	'DataLoad_subywbalance',
+	'subywbalance',
+	'[SUBBH],[HH]',
+	'[SJSL],[LSJ],[LSJ1],[fperiod]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_u_store_c_*.TXT',
+	'库存表'),
+	('02',
+	'DataLoad_subywbalance',
+	'subywbalance',
+	'[SUBBH],[HH]',
+	'[SJSL],[LSJ],[LSJ1],[fperiod]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'02_u_store_c_*.TXT',
+	'库存表')
+
+INSERT INTO [ImportSetting]
+VALUES
+	('01',
+	'DataLoad_GL_HY',
+	'GL_HY',
+	'[ID]',
+	'[NAME],[PhoneNumber],[JIFEN]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_GL_HY_*.TXT',
+	'用户信息表'),
+	('01',
+	'DataLoad_GL_HY',
+	'GL_HY',
+	'[ID]',
+	'[NAME],[PhoneNumber],[JIFEN]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'02_GL_HY_*.TXT',
+	'用户信息表')
+
+INSERT INTO [ImportSetting]
+VALUES
+	('01',
+	'DataLoad_subfhd',
+	'subfhd',
+	'[LSH]',
+	'[KDRQ],[SUBBH],[HH],[sl],[YHKH],[DH]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'01_subfhd_*.TXT',
+	'订单表'),
+	('02',
+	'DataLoad_subfhd',
+	'subfhd',
+	'[LSH]',
+	'[KDRQ],[SUBBH],[HH],[sl],[YHKH],[DH]',
+	'D:\Github\Jupiter\DataImport\DataFile\',
+	'D:\Github\Jupiter\DataImport\Archive\',
+	'02_subfhd_*.TXT',
+	'订单表')
 GO
 
---TRUNCATE TABLE [TBL1]
---INSERT INTO [TBL1]
---([Uid],[Source],[Update],[Col1],[Col2],[Col3],[Col4],[Col5])
---VALUES
---(
---'1','PAYF',GETDATE(),'张三','男','重庆市沙坪坝区','138965943279','580'
---)
-GO
+

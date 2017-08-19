@@ -38,5 +38,10 @@ namespace Jupiter.Utility
         {
             log.Debug(message);
         }
+
+        public static void Debug(string format, params object[] para)
+        {
+            log.Debug(string.Format(format, para));
+        }
     }
 }

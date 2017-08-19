@@ -86,23 +86,36 @@
     <Folder Include="StoredProcedure" />
     <Folder Include="Table" />
     <Folder Include="Function" />
+    <Folder Include="Table\Basic" />
+    <Folder Include="Table\Batch1" />
+    <Folder Include="Table\Batch1\DataLoad" />
+    <Folder Include="Table\Batch1\Data" />
+    <Folder Include="Table\Batch1\Obselete" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Table\ColumnMapping.sql" />
     <Build Include="StoredProcedure\SP_GetData.sql" />
-    <Build Include="Table\DataLoad1.sql" />
-    <Build Include="Table\ImportSetting.sql" />
     <Build Include="StoredProcedure\SP_Import.sql" />
     <Build Include="Function\F_CM_Split.sql" />
-    <Build Include="Table\DataLoad2.sql" />
+    <Build Include="Table\Basic\ImportSetting.sql" />
+    <Build Include="Table\Basic\Source.sql" />
+    <Build Include="Table\Batch1\DataLoad\DataLoad_YW_KCK.sql" />
+    <Build Include="Table\Batch1\DataLoad\DataLoad_GL_CUSTOM.sql" />
+    <Build Include="Table\Batch1\Data\GL_CUSTOM.sql" />
+    <Build Include="Table\Batch1\Data\YW_KCK.sql" />
+    <Build Include="Table\Batch1\Data\subywbalance.sql" />
+    <Build Include="Table\Batch1\DataLoad\DataLoad_subywbalance.sql" />
+    <Build Include="Table\Batch1\Data\GL_HY.sql" />
+    <Build Include="Table\Batch1\DataLoad\DataLoad_GL_HY.sql" />
+    <Build Include="Table\Batch1\Obselete\ColumnMapping.sql" />
+    <Build Include="Table\Batch1\Obselete\DataLoad1.sql" />
+    <Build Include="Table\Batch1\Obselete\DataLoad2.sql" />
+    <Build Include="Table\Batch1\Obselete\TBL1.sql" />
+    <Build Include="Table\Batch1\Obselete\TBL2.sql" />
+    <Build Include="Table\Batch1\Data\subfhd.sql" />
+    <Build Include="Table\Batch1\DataLoad\DataLoad_subfhd.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Initialization.sql" />
     <None Include="Schema.publish.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="Table\Source.sql" />
-    <Build Include="Table\TBL1.sql" />
-    <Build Include="Table\TBL2.sql" />
   </ItemGroup>
 </Project>
