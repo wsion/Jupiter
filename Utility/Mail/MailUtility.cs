@@ -10,12 +10,14 @@ namespace Jupiter.Utility
     {
         private MailConfig config;
 
-        public MailUtility()
+        public static readonly MailUtility Instance = new MailUtility();
+
+        private MailUtility()
         {
             config = XmlUtility.DeserializeFromFile<MailConfig>("mail.xml");
         }
 
-        public SmtpClient GetSmtpClient()
+        private SmtpClient GetSmtpClient()
         {
             SmtpClient client = new SmtpClient();
             client.Host = config.Host;

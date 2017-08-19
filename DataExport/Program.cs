@@ -1,5 +1,6 @@
 ﻿using Jupiter.Utility;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace DataExport
@@ -10,19 +11,15 @@ namespace DataExport
         {
             try
             {
-                //Task<string> task = Task.Run(() => new Export().Start());
-                //var result = task.Result;
+                log4net.Config.XmlConfigurator.Configure(new FileInfo(Application.StartupPath + "\\log.xml"));
+
                 new Export().Start();
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.ToString());
+                Log.Error(ex.ToString());
 
-                try
-                {
-                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
-                }
-                catch { }
+                MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
             }
         }
     }

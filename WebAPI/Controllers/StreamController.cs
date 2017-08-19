@@ -44,11 +44,11 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.ToString());
+                Log.Error(ex.Message);
 
                 try
                 {
-                    new MailUtility().SendEmail(
+                  MailUtility.Instance.SendEmail(
                         Jupiter.Utility.Configuration.GetApp("adminEmail"), "数据导入错误(Web Host)",
                         ex.ToString());
                 }

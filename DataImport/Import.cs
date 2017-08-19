@@ -71,7 +71,7 @@ namespace DataImport
 
                     //2. Archive file
                     File.Move(file, string.Format("{0}{1}", setting.ArchiveFolder, fName));
-                    Logger.Log("File [{0}] processing success", fName);
+                    Log.Info("File [{0}] processing success", fName);
 
                     //3. Notify consumer
                     notifyConsumer(setting.Source);
@@ -126,9 +126,9 @@ namespace DataImport
         {
             var consumerUrl= Configuration.GetApp("consumerUrl");
             var client = new HttpClient();
-            var url = new Uri(string.Format("{0}{1}", consumerUrl, source));
-            var response = client.GetAsync(url).Result.StatusCode;
-            Logger.Log("Source [{0}], Consumer Status Code:\r\n{1}", source, response);
+            var url = new Uri(string.Format(consumerUrl, source));
+            var responseStatus = client.GetAsync(url).Result.StatusCode;
+            Log.Info("Consumer API - URL[{0}] , Response Status [{1}]", url, responseStatus);
         }
     }
 }

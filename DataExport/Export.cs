@@ -18,7 +18,6 @@ namespace DataExport
     class Export
     {
         string token;
-        MailUtility mail = new MailUtility();
         string apiHost;
 
         public Export()
@@ -64,7 +63,7 @@ namespace DataExport
                 File.Move(path, pathArch);
 
                 //4. Send notification email
-                mail.SendEmail(Configuration.GetApp("adminEmail"), "数据导出",
+                MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出",
                     string.Format("<b>{0}</b>导出<b>{1}</b>条记录，{2}", job.SourceName, count,
                     msg.StatusCode == HttpStatusCode.OK ? "上传文件成功。" : "上传文件失败:" + msg.ToString()));
             }
@@ -91,7 +90,7 @@ namespace DataExport
 
                 Console.WriteLine("Uploading {0}", path);
                 var response = client.PostAsync(Configuration.GetApp("apiUrl"), form).Result;
-                Logger.Log("File [{0}], Response:\r\n{1}", fileName, response);
+                Log.Info("File [{0}], Response:\r\n{1}", fileName, response);
                 stream.Close();
                 return response;
             }

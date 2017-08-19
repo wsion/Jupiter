@@ -13,13 +13,9 @@ namespace DataImport
             }
             catch (Exception ex)
             {
-                Logger.Log(ex.ToString());
+                Log.Error(ex.ToString());
 
-                try
-                {
-                    new MailUtility().SendEmail(Configuration.GetApp("adminEmail"), "数据导入错误(计划任务)", ex.ToString());
-                }
-                catch { }
+                MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导入错误(计划任务)", ex.ToString());
             }
         }
     }
