@@ -19,7 +19,10 @@ namespace DataExport
             {
                 Log.Error(ex.ToString());
 
-                MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
+                lock (MailUtility.Instance)
+                {
+                    MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
+                }
             }
         }
     }

@@ -40,15 +40,18 @@ namespace WebAPI.Controllers
         {
             try
             {
-                new Import().Start(fileName);                
+                new Import().Start(fileName);
             }
             catch (Exception ex)
             {
                 Log.Error(ex.Message);
 
-                MailUtility.Instance.SendEmail(
-                      Jupiter.Utility.Configuration.GetApp("adminEmail"), "数据导入错误(Web Host)",
-                      ex.ToString());
+                lock (MailUtility.Instance)
+                {
+                    MailUtility.Instance.SendEmail(
+                     Jupiter.Utility.Configuration.GetApp("adminEmail"), "数据导入错误(Web Host)",
+                     ex.ToString());
+                }
             }
         }
 
