@@ -11,10 +11,17 @@ namespace DataImport
             try
             {
                 log4net.Config.XmlConfigurator.Configure(new FileInfo(Application.StartupPath + "\\log.xml"));
-                Log.Info(args[0]);
+                if (args != null && args.Length > 0)
+                {
+                    Log.Info(args[0]);
+                    var fileName = args[0];
+                    new Import().Start(fileName);
+                }
+                else
+                {
+                    new Import().Start();
+                }
 
-                var fileName = args[0];
-                new Import().Start(fileName);
             }
             catch (Exception ex)
             {

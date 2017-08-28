@@ -36,9 +36,9 @@ namespace DataImport
                 {
                     var pattern = p.FilePattern;
                     var filePrefix = pattern.Substring(0, pattern.Length - FILE_SUFFIX_LENGTH);
-                    Log.Debug("fileName:[{0}],prefix:[{1}], [{2}]", 
-                        fileName, 
-                        filePrefix, 
+                    Log.Debug("fileName:[{0}],prefix:[{1}], [{2}]",
+                        fileName,
+                        filePrefix,
                         fileName.StartsWith(filePrefix));
                     return fileName.StartsWith(filePrefix);
                 });
@@ -52,34 +52,63 @@ namespace DataImport
             {
                 var files = Directory.GetFiles(setting.Directory, setting.FilePattern);
 
-                foreach (var file in files)
+                if (files.Length == 0)
+                {
+                    continue;
+                }
+
+                var fileList = files.ToList();
+                fileList.Sort();
+
+                Log.Debug("All files sorted:" + string.Join("\r\n", fileList));
+
+                foreach (var file in fileList)
                 {
                     var fName = Path.GetFileName(file);
-                    if(fileName !=null && fName != fileName)
+                    if (fileName != null && fName != fileName)
                     {
                         continue;
                     }
 
-                    bulkCopy(file, setting.DataLoadTableName);
+                    try
+                    {
+                        bulkCopy(file, setting.DataLoadTableName);
 
-                    //1. Process data
-                    DA.Execute("[SP_Import]",
-                        new
+                        //1. Process data
+                        DA.Execute("[SP_Import]",
+                            new
+                            {
+                                dataloadTableName = setting.DataLoadTableName,
+                                targetTableName = setting.TargetTableName,
+                                keyColumns = setting.KeyColumns,
+                                columns = setting.Columns,
+                                source = setting.Source,
+                                fileName = fName
+                            });
+
+                        //2. Archive file
+                        var targetPath = string.Format("{0}{1}", setting.ArchiveFolder, fName);
+                        if (File.Exists(targetPath))
                         {
-                            dataloadTableName = setting.DataLoadTableName,
-                            targetTableName = setting.TargetTableName,
-                            keyColumns = setting.KeyColumns,
-                            columns = setting.Columns,
-                            source = setting.Source,
-                            fileName = fName
-                        });
+                            targetPath = string.Format("{0}{1}.{2}",
 
-                    //2. Archive file
-                    File.Move(file, string.Format("{0}{1}", setting.ArchiveFolder, fName));
-                    Log.Info("File [{0}] processing success", fName);
+                                Path.GetFileNameWithoutExtension(targetPath),
+                                "ext",
+                                 Path.GetExtension(targetPath));
+                        }
+                        File.Move(file, targetPath);
+                        Log.Info("File [{0}] processing success", fName);
 
-                    //3. Notify consumer
-                    notifyConsumer(setting.Source);
+                        //3. Notify consumer
+                        notifyConsumer(setting.Source);
+                    }
+                    catch(Exception ex)
+                    {
+                        Log.Error(string.Format("Error when process [{0}]:\r\n{1}\r\n{2}",
+                            file, ex.Message,
+                            ex.Source));
+                    }
+                    
                 }
 
             }
@@ -91,6 +120,12 @@ namespace DataImport
             var sr = new StreamReader(filePath);
 
             string line = sr.ReadLine();
+
+            if (line == null || line.Trim() == string.Empty)
+            {
+                sr.Close();
+                return;
+            }
 
             var dt = new DataTable();
             string[] strArray = line.Split('|');
@@ -129,7 +164,7 @@ namespace DataImport
 
         private void notifyConsumer(string source)
         {
-            var consumerUrl= Configuration.GetApp("consumerUrl");
+            var consumerUrl = Configuration.GetApp("consumerUrl");
             var client = new HttpClient();
             var url = new Uri(string.Format(consumerUrl, source));
             var responseStatus = client.GetAsync(url).Result.StatusCode;

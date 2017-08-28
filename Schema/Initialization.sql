@@ -46,7 +46,7 @@ VALUES
 	'[MC]',
 	'D:\Github\Jupiter\DataImport\DataFile\',
 	'D:\Github\Jupiter\DataImport\Archive\',
-	'01_u_org_busi_ini_data_*.TXT',
+	'02_u_org_busi_ini_data_*.TXT',
 	'门店基本信息表')
 
 INSERT INTO [ImportSetting]
