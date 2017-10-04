@@ -134,4 +134,6 @@ VALUES
 	'订单表')
 GO
 
+INSERT INTO [ExportSetting]
+VALUES	('01','SELECT * FROM GL_HY WHERE 1=1')
 

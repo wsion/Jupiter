@@ -91,6 +91,7 @@
     <Folder Include="Table\Batch1\DataLoad" />
     <Folder Include="Table\Batch1\Data" />
     <Folder Include="Table\Batch1\Obselete" />
+    <Folder Include="Table\Batch2" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="StoredProcedure\SP_GetData.sql" />
@@ -113,6 +114,8 @@
     <Build Include="Table\Batch1\Obselete\TBL2.sql" />
     <Build Include="Table\Batch1\Data\subfhd.sql" />
     <Build Include="Table\Batch1\DataLoad\DataLoad_subfhd.sql" />
+    <Build Include="Table\Basic\ExportSetting.sql" />
+    <Build Include="Table\Batch2\Dummy_Membership.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Initialization.sql" />

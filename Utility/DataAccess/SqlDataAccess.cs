@@ -52,7 +52,5 @@ namespace Jupiter.Utility
             con.Close();
             return resut;
         }
-
-
     }
 }

@@ -3,6 +3,10 @@ using System;
 
 namespace Jupiter.Utility
 {
+    /// <summary>
+    /// Used to walk through selection result set for different DB manufacturer
+    /// including MS-SQL, MySql, Oracle.
+    /// </summary>
     public class DataAccess
     {
         private IDbConnection con;
