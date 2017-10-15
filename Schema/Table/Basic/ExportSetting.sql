@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[ExportSetting]
 (
 	[Id] VARCHAR(5) NOT NULL PRIMARY KEY,
-	[SqlQuery] VARCHAR(5000) NOT NULL
+	[SqlQuery] VARCHAR(MAX) NOT NULL
 )

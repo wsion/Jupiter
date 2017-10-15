@@ -25,9 +25,9 @@ namespace DataImport
         /// <param name="fileName"></param>
         public void Start(string fileName = null)
         {
-            var allSettingRecords = DA.Query<Jupiter.DataModel.ImportSetting>(
+            var allSettingRecords = DA.Query<Jupiter.DataModel.ServerImportSetting>(
                 "SELECT [Source],[DataLoadTableName],[TargetTableName],[KeyColumns],[Columns],[Directory],[ArchiveFolder],[FilePattern] FROM [ImportSetting]");
-            IEnumerable<Jupiter.DataModel.ImportSetting> settings;
+            IEnumerable<Jupiter.DataModel.ServerImportSetting> settings;
 
             if (fileName != null)
             {

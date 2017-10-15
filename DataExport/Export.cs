@@ -1,34 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
+﻿using Jupiter.DataModel;
 using Jupiter.Utility;
-using Jupiter.DataModel;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Xml.Linq;
-using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Web;
 
 namespace DataExport
 {
     class Export
     {
-        string token;
-        string apiHost;
-
-        public Export()
-        {
-            apiHost = Configuration.GetApp("apiHost");
-        }
-
         public void Start()
         {
             //1. Read job items from job.xml
-            var jobs = XmlUtility.DeserializeFromFile<ExportJobs>("job.xml").Items;
+            var jobs =
+                XmlUtility.DeserializeFromFile<ClientExportJobs>("job.xml").Items;
+
+            if (jobs == null)
+            {
+                Log.Info("No ClientExportJobs got.");
+                return;
+            }
+
+            Log.Info("ClientExportJobs got: [{0}] job(s).", jobs.Count);
 
             foreach (var job in jobs)
             {
@@ -38,12 +33,22 @@ namespace DataExport
                 // - File name: prefix_yyyy_MM-dd_HH_mm_ss.txt
                 // - Save to .\output\ folder
                 // - Archive to .\archive\ folder
-                var filename = string.Format("{0}_{1}.txt", job.Prefix, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
-                var path = string.Format(@"{0}\output\{1}", Application.StartupPath, filename);
-                var pathArch = string.Format(@"{0}\archive\{1}", Application.StartupPath, filename);
+                var filename = string.Format(
+                    "{0}_{1}.txt",
+                    job.Prefix,
+                    DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+                var path = string.Format(
+                    @"{0}\output\{1}",
+                    Application.StartupPath,
+                    filename);
+                var pathArch = string.Format(
+                    @"{0}\archive\{1}",
+                    Application.StartupPath,
+                    filename);
                 var count = 0;
                 using (StreamWriter writer = new StreamWriter(path, true))
                 {
+                    //2.1 Build 'pipe' seperated UrlEncoded data rows
                     count = DA.LoopSelectResult(
                          job.Query,
                          (col, rowEnd) =>
@@ -65,9 +70,15 @@ namespace DataExport
                 //4. Send notification email
                 lock (MailUtility.Instance)
                 {
-                    MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出",
-                    string.Format("<b>{0}</b>导出<b>{1}</b>条记录，{2}", job.SourceName, count,
-                    msg.StatusCode == HttpStatusCode.OK ? "上传文件成功。" : "上传文件失败:" + msg.ToString()));
+                    MailUtility.Instance.SendEmail(
+                        Configuration.GetApp("adminEmail"),
+                        "数据导出",
+                        string.Format("<b>{0}</b>导出<b>{1}</b>条记录，{2}",
+                            job.SourceName,
+                            count,
+                            msg.StatusCode == HttpStatusCode.OK ?
+                            "上传文件成功。" : "上传文件失败:" + msg.ToString())
+                    );
                 }
             }
 
@@ -75,55 +86,26 @@ namespace DataExport
 
         private HttpResponseMessage upload(string path, string fileName)
         {
-            getToken();
-
             using (FileStream stream = new FileStream(path, FileMode.Open))
             {
-                var client = new HttpClient();
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-                client.BaseAddress = new Uri(apiHost);
+                var client = ApiUtility.GetClient();
 
                 var form = new MultipartFormDataContent();
                 var streamContent = new StreamContent(stream);
-                streamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                {
-                    FileName = fileName
-                };
+                streamContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("form-data")
+                    {
+                        FileName = fileName
+                    };
                 form.Add(streamContent);
 
                 Console.WriteLine("Uploading {0}", path);
-                var response = client.PostAsync(Configuration.GetApp("apiUrl"), form).Result;
+                var response = client.PostAsync(
+                    Configuration.GetApp("apiUrl"),
+                    form).Result;
                 Log.Info("File [{0}], Response:\r\n{1}", fileName, response);
                 stream.Close();
                 return response;
-            }
-        }
-
-        private void getToken()
-        {
-            if (!string.IsNullOrEmpty(token))
-            {
-                return;
-            }
-
-            HttpClient httpClient = new HttpClient();
-            httpClient.BaseAddress = new Uri(apiHost);
-
-            var parameters = new Dictionary<string, string>();
-            parameters.Add("grant_type", "client_credentials");
-
-            httpClient.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue(
-                    "Basic",
-                    Convert.ToBase64String(
-                        Encoding.ASCII.GetBytes(Constants.ClientID + ":" + Constants.ClientSecrect)
-                        ));
-
-            var response = httpClient.PostAsync("token", new FormUrlEncodedContent(parameters)).Result;
-            var responseValue = response.Content.ReadAsStringAsync().Result;
-            if (response.StatusCode == HttpStatusCode.OK)
-            {
-                token = JObject.Parse(responseValue)["access_token"].Value<string>();
             }
         }
     }

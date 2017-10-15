@@ -237,6 +237,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\StreamController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -328,6 +329,10 @@
     <ProjectReference Include="..\DataImport\DataImport.csproj">
       <Project>{3ffb345d-f9d9-4526-bd4b-2cfbd51b29c9}</Project>
       <Name>DataImport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataModel\DataModel.csproj">
+      <Project>{e92c5351-c44d-46bd-920f-c27f3d4be327}</Project>
+      <Name>DataModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{3f28f98d-b9a0-4d68-b7a8-36d6e0288aca}</Project>

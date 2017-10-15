@@ -14,6 +14,8 @@ namespace DataExport
                 log4net.Config.XmlConfigurator.Configure(new FileInfo(Application.StartupPath + "\\log.xml"));
 
                 new Export().Start();
+
+                new Import().Start();
             }
             catch (Exception ex)
             {
@@ -21,7 +23,7 @@ namespace DataExport
 
                 lock (MailUtility.Instance)
                 {
-                    MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出错误", ex.ToString());
+                    MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出/导入错误", ex.ToString());
                 }
             }
         }

@@ -58,6 +58,6 @@ namespace WebAPI.Controllers
         private Task importDataAsync(string fileName)
         {
             return Task.Run(() => importData(fileName));
-        }
+        }        
     }
 }

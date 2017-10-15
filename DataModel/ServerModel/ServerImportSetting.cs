@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Jupiter.DataModel
 {
-    public class ImportSetting
+    public class ServerImportSetting
     {
         public string Source { get; set; }
         public string DataLoadTableName { get; set; }
