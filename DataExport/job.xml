@@ -1,40 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Jobs>
-  <!--<Job>
-    <ID>1</ID>
-    <Source>ERP</Source>
-    <SourceName>ERP产品基本信息表</SourceName>
+  <ExportJob>
+    <JobName>ERP产品基本信息表</JobName>
     <Prefix>01_u_ware_</Prefix>
     <DbType>mssql</DbType>
     <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
     <Query>select [changeamt_bf],[invalidate] from u_memcard_reg</Query>
-  </Job>
-  <Job>
-    <ID>2</ID>
-    <Source>ERP</Source>
-    <SourceName>ERP库存表</SourceName>
+  </ExportJob>
+  <ExportJob>
+    <JobName>ERP库存表</JobName>
     <Prefix>01_u_store_c_</Prefix>
     <DbType>mssql</DbType>
     <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
     <Query>select '01',[changeamt_bf],[invalidate],[introducer],[tel],[handset],[memcardno] from u_memcard_reg</Query>
-  </Job>
-  <Job>
-    <ID>3</ID>
-    <Source>ERP</Source>
-    <SourceName>ERP库存表</SourceName>
+  </ExportJob>
+  <ExportJob>
+    <JobName>ERP库存表</JobName>
     <Prefix>02_u_store_c_</Prefix>
     <DbType>mssql</DbType>
     <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
     <Query>select '02',[changeamt_bf],[invalidate],[introducer],[tel],[handset],[memcardno] from u_memcard_reg</Query>
-  </Job>-->
+  </ExportJob>
   <ImportJob>
     <ApiUrl>api/getdata/01</ApiUrl>
     <JobName>会员表</JobName>
     <DbType>mssql</DbType>
     <ConnectionString>Data Source=.;Initial Catalog=ERP;Integrated Security=True;</ConnectionString>
     <ParameterPrefix>@p</ParameterPrefix>
-    <Query>     
-    INSERT INTO GL_HY VALUES ( LEFT(newid(),20), @p1, @p2, @p3);
+    <Query>
+      INSERT INTO GL_HY VALUES ( LEFT(newid(),20), @p1, @p2, @p3);
     </Query>
   </ImportJob>
 </Jobs>

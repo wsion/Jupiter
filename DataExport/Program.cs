@@ -12,19 +12,38 @@ namespace DataExport
             try
             {
                 log4net.Config.XmlConfigurator.Configure(new FileInfo(Application.StartupPath + "\\log.xml"));
+            }
+            catch (Exception ex)
+            {
+                emailError(ex);
+            }
 
+            try
+            {
                 new Export().Start();
+            }
+            catch (Exception ex)
+            {
+                emailError(ex);
+            }
 
+            try
+            {
                 new Import().Start();
             }
             catch (Exception ex)
             {
-                Log.Error(ex.ToString());
+                emailError(ex);
+            }
+        }
 
-                lock (MailUtility.Instance)
-                {
-                    MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出/导入错误", ex.ToString());
-                }
+        private static void emailError(Exception ex)
+        {
+            Log.Error(ex.ToString());
+
+            lock (MailUtility.Instance)
+            {
+                MailUtility.Instance.SendEmail(Configuration.GetApp("adminEmail"), "数据导出/导入错误", ex.ToString());
             }
         }
     }

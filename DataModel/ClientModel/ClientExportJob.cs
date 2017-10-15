@@ -5,10 +5,8 @@ using System.Xml.Serialization;
 namespace Jupiter.DataModel
 {
     public class ClientExportJob
-    {
-        public int ID { get; set; }
-        public string Source { get; set; }
-        public string SourceName { get; set; }
+    {       
+        public string JobName { get; set; }
         public string Prefix { get; set; }
         public string DbType { get; set; }
         public string ConnectionString { get; set; }
@@ -18,7 +16,7 @@ namespace Jupiter.DataModel
     [Serializable, XmlRoot("Jobs")]
     public class ClientExportJobs
     {
-        [XmlElement("Job")]
+        [XmlElement("ExportJob")]
         public List<ClientExportJob> Items { get; set; }
     }
 }

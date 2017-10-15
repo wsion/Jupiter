@@ -74,7 +74,7 @@ namespace DataExport
                         Configuration.GetApp("adminEmail"),
                         "数据导出",
                         string.Format("<b>{0}</b>导出<b>{1}</b>条记录，{2}",
-                            job.SourceName,
+                            job.JobName,
                             count,
                             msg.StatusCode == HttpStatusCode.OK ?
                             "上传文件成功。" : "上传文件失败:" + msg.ToString())
