@@ -89,7 +89,7 @@ namespace DataExport
 
                 for (int i = 0; i < cols.Length; i++)
                 {
-                    //d. Build parameters named @p1,@p2,@p3 etc.
+                    //d. Build parameters named @p0,@p1,@p2 etc.
                     //todo: support DB other than MSSQL
                     var key = job.ParameterPrefix + i;
                     var value =

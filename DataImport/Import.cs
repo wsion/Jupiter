@@ -65,7 +65,7 @@ namespace DataImport
                 foreach (var file in fileList)
                 {
                     var fName = Path.GetFileName(file);
-                    if (fileName != null && fName != fileName)
+                    if (fileName != null && fName.ToUpper() != fileName.ToUpper())
                     {
                         continue;
                     }
@@ -160,6 +160,7 @@ namespace DataImport
             connection.Close();
             bc.Close();
             sr.Close();
+            Log.Info("SqlBulkCopy:{0} rows.", dt.Rows.Count);
         }
 
         private void notifyConsumer(string source)

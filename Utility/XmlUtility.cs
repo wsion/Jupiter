@@ -33,7 +33,7 @@ namespace Jupiter.Utility
             writerSettings.CloseOutput = true;
             writerSettings.Indent = true;
 
-            readerSettings = new XmlReaderSettings();
+            readerSettings = new XmlReaderSettings() { IgnoreComments = true };
             readerSettings.CloseInput = true;
 
             SerializerLock = new object();
