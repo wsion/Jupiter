@@ -15,6 +15,11 @@ namespace Jupiter.Utility
             log.Warn(message);
         }
 
+        public static void Warn(string format, params object[] para)
+        {
+            log.Warn(string.Format(format, para));
+        }
+
         public static void Info(string message)
         {
             log.Info(message);
@@ -29,9 +34,19 @@ namespace Jupiter.Utility
             log.Fatal(message);
         }
 
+        public static void Fatal(string format, params object[] para)
+        {
+            log.Fatal(string.Format(format, para));
+        }
+
         public static void Error(string message)
         {
             log.Error(message);
+        }
+
+        public static void Error(string format, params object[] para)
+        {
+            log.Error(string.Format(format, para));
         }
 
         public static void Debug(string message)
