@@ -23,15 +23,25 @@ namespace Jupiter.Utility
             }
         }
 
-        public SqlDataAccess(string conName)
+        public SqlDataAccess(string conName = null)
         {
-            var conStr = Jupiter.Utility.Configuration.GetConnection("connection");
-            con = this.GenerateConnection(conStr);
+            if (conName == null)
+            {
+                return;
+            }
+
+            var conStr = Jupiter.Utility.Configuration.GetConnection(conName);
+            this.GenerateConnection(conStr, true);
         }
 
-        public SqlConnection GenerateConnection(string conStr)
+        public SqlConnection GenerateConnection(string conStr, bool setConnection = false)
         {
-            return new SqlConnection(conStr);
+            var sqlCon = new SqlConnection(conStr);
+            if (setConnection)
+            {
+                con = sqlCon;
+            }
+            return sqlCon;
         }
 
         public IEnumerable<T> Query<T>(string cmd)
@@ -66,10 +76,16 @@ namespace Jupiter.Utility
             con.Close();
             return resut;
         }
-        public int Execute(string sql, object paras)
+
+        public int Execute(string sql, object paras, bool isStoredProcedure = true)
         {
             con.Open();
-            var resut = con.Execute(sql, paras, commandType: System.Data.CommandType.StoredProcedure);
+            var resut = con.Execute(
+                sql,
+                paras,
+                commandType: isStoredProcedure ?
+                System.Data.CommandType.StoredProcedure :
+                System.Data.CommandType.Text);
             con.Close();
             return resut;
         }
