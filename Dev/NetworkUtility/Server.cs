@@ -29,7 +29,6 @@ namespace Dev.NetworkUtility
                     Jupiter.Utility.Log.Error(ex.Message);
                     Jupiter.Utility.Log.Error(ex.StackTrace);
                 }
-
             }
             server.Stop();
         }
@@ -70,13 +69,13 @@ namespace Dev.NetworkUtility
                             data);
 
                         //Recording
-                        Jupiter.Utility.SqlDataAccess da = new Jupiter.Utility.SqlDataAccess();
-                        da.GenerateConnection("Data Source=.;Initial Catalog=Jupiter;Integrated Security=True", true);
-                        da.Execute(
-                            string.Format("INSERT INTO [NetworkRec] VALUES ('{0}','{1}','{2}')",
-                            endPoint.Address,
-                            endPoint.Port,
-                            data));
+                        //Jupiter.Utility.SqlDataAccess da = new Jupiter.Utility.SqlDataAccess();
+                        //da.GenerateConnection("Data Source=.;Initial Catalog=Jupiter;Integrated Security=True", true);
+                        //da.Execute(
+                        //    string.Format("INSERT INTO [NetworkRec] VALUES ('{0}','{1}','{2}')",
+                        //    endPoint.Address,
+                        //    endPoint.Port,
+                        //    data));
 
                         //Write
                         buffer = Encoding.UTF8.GetBytes("SUCESS");

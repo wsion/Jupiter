@@ -10,5 +10,6 @@ namespace Jupiter.Utility
         public static readonly string ClientID = "jupiter";
         public static readonly string ClientSecrect = "575E6549-DCE2-4A0C-8E86-91258E45DE88";
 
+        public const int TCP_BUFFER_SIZE = 65536;
     }
 }

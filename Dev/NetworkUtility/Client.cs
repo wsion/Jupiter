@@ -21,7 +21,7 @@ namespace Dev.NetworkUtility
 
         public void keepAlive()
         {
-            Timer timer = new Timer(Timer_Elapsed, null, 0, 500);
+            Timer timer = new Timer(Timer_Elapsed, null, 0, 1000);
         }
 
         private void Timer_Elapsed(object obj)
@@ -37,7 +37,8 @@ namespace Dev.NetworkUtility
             try
             {
                 client = new TcpClient();
-                client.Connect(IPAddress.Parse("118.190.117.0"), 8888);
+                //client.Connect(IPAddress.Parse("118.190.117.0"), 8888);
+                client.Connect(IPAddress.Parse("127.0.0.1"), 8888);
             }
             catch (Exception ex)
             {

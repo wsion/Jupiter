@@ -8,7 +8,7 @@ namespace Jupiter.Utility
 {
     public class NetworkStreamUtility
     {
-        public static bool SendText(string text, NetworkStream stream,int bufferSizeMax)
+        public static bool SendText(string text, NetworkStream stream, int bufferSizeMax = Constants.TCP_BUFFER_SIZE)
         {
             bool result = false;
 
@@ -32,7 +32,7 @@ namespace Jupiter.Utility
             return result;
         }
 
-        private string ReceiveText(NetworkStream stream, int bufferSizeMax)
+        public static string ReceiveText(NetworkStream stream, int bufferSizeMax = Constants.TCP_BUFFER_SIZE)
         {
             string text = string.Empty;
 
