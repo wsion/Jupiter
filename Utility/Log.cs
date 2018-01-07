@@ -3,12 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using log4net;
+using System.IO;
 
 namespace Jupiter.Utility
 {
     public class Log
     {
         private static readonly ILog log = LogManager.GetLogger("TextLogger");
+
+        public static void Initialize()
+        {
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Application.StartupPath + "\\log.xml"));
+        }
 
         public static void Warn(string message)
         {
@@ -29,6 +35,7 @@ namespace Jupiter.Utility
         {
             log.Info(string.Format(format, para));
         }
+
         public static void Fatal(string message)
         {
             log.Fatal(message);

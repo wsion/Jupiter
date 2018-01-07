@@ -1,4 +1,4 @@
-﻿namespace DataServer
+﻿namespace Jupiter.NetworkServices.DataServer
 {
     partial class MainService
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            this.ServiceName = "Service1";
+            this.ServiceName = "MainService";
         }
 
         #endregion

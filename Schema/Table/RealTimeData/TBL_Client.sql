@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[TBL_Client]
+(
+	[Id] INT IDENTITY PRIMARY KEY,
+	[Msg] VARCHAR(50) NULL
+)

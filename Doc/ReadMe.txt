@@ -1,5 +1,7 @@
 软件配置说明
 
+- 数据批量传输Job
+
 1.DataExport.exe.config内的<appSettings>节点
 a)apiHost - 文件上传服务器的域名或IP
 b)apiUrl - 接收文件传送的目标API相对路径(请勿更改）
@@ -28,3 +30,12 @@ g)Query - 查询语句。可根据情况任意指定mssql/oracle支持的查询语句(单表或多表查询)
 如何运行程序？
 启动DataExport.exe即可。如出现未找到或未安装.NET Framework相关的错误提示，请前往以下地址下载.NET Framework4.0。.NET Framework4.0支持WINDOWS Server 2003 SP2以上或WINDOWS XP SP3以上系统。
 https://www.microsoft.com/zh-cn/download/details.aspx?id=17718
+
+
+- 数据实时传输服务
+1.安装服务
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe [execution path]
+2.卸载服务
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe /u [execution path]
+3.数据库打开Broker Service
+ALTER  DATABASE  [JUPITER]  SET  ENABLE_BROKER;

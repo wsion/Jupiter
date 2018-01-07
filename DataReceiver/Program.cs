@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 
-namespace DataReceiver
+namespace Jupiter.NetworkServices.DataReceiver
 {
     static class Program
     {
@@ -13,12 +13,21 @@ namespace DataReceiver
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            Jupiter.Utility.Log.Initialize();
+
+            try
             {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[]
+                {
                 new MainService()
-            };
-            ServiceBase.Run(ServicesToRun);
+                };
+                ServiceBase.Run(ServicesToRun);
+            }
+            catch (Exception ex)
+            {
+                Jupiter.Utility.Log.Error(ex.ToString());
+            }
         }
     }
 }

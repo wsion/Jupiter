@@ -10,78 +10,92 @@ namespace Dev.NetworkUtility
     class Client
     {
         TcpClient client;
-        object stateObj = new object();
+        NetworkStream networkStream;
+        byte[] readBuffer;
 
         public void Start()
         {
             Console.WriteLine("Client running ...");
-            initializeTcpClient();
-            keepAlive();
+            Server.PrintThread("Client Main Thread - ");
+            connectServer();
+
+            //Keep connection alive
+            Thread.Sleep(100);
+            Timer timer = new Timer(keepAlive, null, 0, 5000);
+
+            Console.ReadLine();
         }
 
-        public void keepAlive()
+        private void connectServer()
         {
-            Timer timer = new Timer(Timer_Elapsed, null, 0, 1000);
-        }
-
-        private void Timer_Elapsed(object obj)
-        {
-            Console.WriteLine("Timer Elapses");
-            sendData();
-        }
-
-        private void initializeTcpClient()
-        {
-            //if (client == null || !client.Connected)
-            //{
             try
             {
-                client = new TcpClient();
-                //client.Connect(IPAddress.Parse("118.190.117.0"), 8888);
-                client.Connect(IPAddress.Parse("127.0.0.1"), 8888);
+                this.client = new TcpClient();
+                this.client.Connect(IPAddress.Parse("127.0.0.1"), 8888);
+                this.networkStream = client.GetStream();
+
+                //Send authentication message
+                sendMessage(Guid.NewGuid().ToString());
+
+                //Keep reading message
+                this.readBuffer = new byte[this.client.ReceiveBufferSize];
+                networkStream.BeginRead(this.readBuffer, 0, this.client.ReceiveBufferSize, readCallback, null);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Connected:{0}", client.Connected);
-                Console.WriteLine(ex.Message);
+                Jupiter.Utility.Log.Error("Sever reading error: \r\n{0}\r\n{1}", ex.Message, ex.StackTrace);
+                Console.WriteLine("Cannot establish conneciton.");
             }
-            //}
         }
 
-        private void sendData()
+        private void keepAlive(object obj)
+        {
+            Console.WriteLine("Sending [Keep Alive].");
+            Server.PrintThread("Client KeepAlive - ");
+
+            //Send keep alive message
+            try
+            {
+                sendMessage(string.Format("KEEP_ALIVE {0}", DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("connected:{0}", this.client.Connected);
+                connectServer();
+            }
+        }
+
+        private void sendMessage(string message)
+        {
+            Server.PrintThread("Client SendMessage - ");
+            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(message);
+            networkStream.Write(buffer, 0, buffer.Length);
+            networkStream.Flush();
+        }
+
+        private void readCallback(IAsyncResult ar)
         {
             try
             {
-                lock (stateObj)
+                if (this.client.Connected)
                 {
-                    string str = System.DateTime.Now.ToString();
-                    var networkStream = client.GetStream();
-                    byte[] buffer = Encoding.UTF8.GetBytes(str);
-                    networkStream.Write(buffer, 0, buffer.Length);
-                    Console.WriteLine("SendBufferSize:{0},SendTimeout:{1}\nReceiveBufferSize:{2},ReceiveTimeout:{3}",
-                        client.SendBufferSize, client.SendTimeout,
-                        client.ReceiveBufferSize, client.ReceiveTimeout);
+                    Server.PrintThread("Client ReadMessage - ");
+                    int count = networkStream.EndRead(ar);
+                    var str = System.Text.Encoding.UTF8.GetString(this.readBuffer, 0, count);
 
-                    int bytes = networkStream.Read(buffer, 0, buffer.Length);
-                    if (bytes > 0)
-                    {
-                        str = Encoding.UTF8.GetString(buffer, 0, bytes);
-                        if (str != "SUCESS")
-                        {
-                            initializeTcpClient();
-                        }
-                    }
-                    else
-                    {
-                        initializeTcpClient();
-                    }
+                    Console.WriteLine("Message received: {0}", str);
+
+                    this.readBuffer = new byte[this.client.ReceiveBufferSize];
+                    networkStream.BeginRead(this.readBuffer, 0, this.client.ReceiveBufferSize, readCallback, null);
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Connected:{0}", client.Connected);
-                Console.WriteLine(ex.Message);
-                initializeTcpClient();
+                Jupiter.Utility.Log.Error("Sever reading error: \r\n{0}\r\n{1}", ex.Message, ex.StackTrace);
+                if (!this.client.Connected)
+                {
+                    Console.WriteLine("Connection lost.");
+                }
             }
         }
     }

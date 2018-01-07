@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 
-namespace DataServer
+namespace Jupiter.NetworkServices.DataServer
 {
     static class Program
     {
@@ -13,6 +13,8 @@ namespace DataServer
         /// </summary>
         static void Main()
         {
+            Jupiter.Utility.Log.Initialize();
+
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {

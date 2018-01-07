@@ -21,7 +21,7 @@ namespace Jupiter.Utility
             }
             else
             {
-                return null;
+                return string.Empty;
             }
         }
     }

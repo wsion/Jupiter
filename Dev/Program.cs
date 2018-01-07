@@ -31,7 +31,7 @@ namespace Dev
                 default:
                     break;
             }
-            Console.ReadLine();
+            //Console.ReadLine();
         }
     }
 }

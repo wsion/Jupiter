@@ -1,4 +1,4 @@
-﻿namespace Jupiter.NetworkServices.DataReceiver
+﻿namespace Jupiter.NetworkServices.DataServer
 {
     partial class ProjectInstaller
     {
@@ -33,15 +33,15 @@
             // 
             // serviceProcessInstaller
             // 
-            this.serviceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.serviceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.NetworkService;
             this.serviceProcessInstaller.Password = null;
             this.serviceProcessInstaller.Username = null;
             // 
             // serviceInstaller
             // 
-            this.serviceInstaller.Description = "A real time data receiver.";
-            this.serviceInstaller.DisplayName = "Real Time Data Receiver";
-            this.serviceInstaller.ServiceName = "Real Time Data Receiver";
+            this.serviceInstaller.Description = "A real time data server.";
+            this.serviceInstaller.DisplayName = "Real Time Data Server";
+            this.serviceInstaller.ServiceName = "Real Time Data Server";
             // 
             // ProjectInstaller
             // 

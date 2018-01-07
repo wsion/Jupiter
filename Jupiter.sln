@@ -42,6 +42,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataServer", "DataServer\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataReceiver", "DataReceiver\DataReceiver.csproj", "{7CEF9945-DC45-412C-9BCD-402769B3C520}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{D4754A48-6A98-4FF7-A333-55604B7A075D}"
+	ProjectSection(SolutionItems) = preProject
+		log.xml = log.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

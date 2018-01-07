@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Configuration.Install;
 using System.Linq;
 
-namespace Jupiter.NetworkServices.DataReceiver
+namespace Jupiter.NetworkServices.DataServer
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer
